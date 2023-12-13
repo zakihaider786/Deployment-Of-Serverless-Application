@@ -1,30 +1,60 @@
 Web Appliaction With Api And Invoke URl
 
-Lambda Function
+<!DOCTYPE html>
+<html>
 
-import json
+<head>
+    <meta charset="UTF-8">
+    <title> Hello World</title>
 
-import boto3
+    <style>
+        body {
+            background-color: #232F3E;
+        }
 
-from time import gmtime, strftime
+        lable, button {
+            color: #FF9900;
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 20px;
+            margin-left: 40px;
+        }
+     input {
+        color: #232F3E;
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 20px;
+        margin-left: 20px;
+     }
+   </style>
+   <script>
+      
+      var callAPI = (firstNAme, lastName)={
+        var myHeaders  = new Headers();
+        myHeaders.append("Content-Type", "application/jason")
 
-dynamodb = boto3.resource('dynamodb')
+        var raw =
+JSON.stringify({"firstName":fisrtName,"lastName":lastName})
 
-table = dynamodb.Table('HelloWorldDatabase')
+        var requestOptions = {
+            method: 'POST',
+            header: myHeaders,
+            body: raw,
+            redirect: 'Follow'
+        };
+        fetch("YOUR-API-INVOKE-URL", requestOptions)
+        .then(response => response.text())
+        .then(result => alter(JSON.parse(result).body))
+        .catch(error => console.log('error', error));
+      }
+    </script>
+</head>
+</body>
+    <form>
+        <label>First Name :</label>
+        <input type="text" id="fname">
+        <label>Last Name :</label>
+        <input type="text" id="lname">
 
-now = strftime("%a, %d %b %b %y %H:%M:&S +0000", gmtime())
-
-def lambda handler(event, context):
-    
-    name = event['firstName'] +' '+ event['lastName']
-    
-    response = table.put item(
-        item=(
-            'ID' : name
-            'LatestGreetingTime' :now
-            })
-        
-    return {
-        'statusCode' : 200,
-        'body' : jason.dumps('Hello From Lambda,' + name)
-    } 
+        <button type="button"
+onclick="callAPI(document.getElementByID('fName').value,document.getElementById('lName').value)">call API</button>"
+   </form>
+</html>
